@@ -1,5 +1,7 @@
 # VPS deployment
 
+For the 2026-09-17 local-data replacement, current configuration differences and rollback procedure, see [Local VSCMS copy to VPS](LOCAL_COPY_20260917.md). The sections below record the original 2026-09-14 deployment and are historical where that newer runbook differs.
+
 Deployment target: `145.223.21.233`, existing Nginx managed under `/www/server/panel/vhost/nginx`.
 
 The deployment is live at **https://vscrm.vshowcards.com**, verified on 2026-09-14. Source image `vscrm:7d34959ca9` was built from the committed checkout using the repository Dockerfile's `twenty` target. Local environment files, demo records, and uncommitted development settings were excluded from the source archive.

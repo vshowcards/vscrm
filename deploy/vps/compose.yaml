@@ -1,13 +1,15 @@
 name: vscrm-prod
 
 x-app: &app
-  image: vscrm:7d34959ca9
+  image: vscrm:3b4b5f00fa
   env_file: app.env
   restart: unless-stopped
   init: true
   entrypoint: []
   volumes:
     - files:/app/packages/twenty-server/.local-storage
+    - /opt/vscrm/vsmcp:/opt/vsmcp:ro
+    - /opt/vscrm/secrets/customer-sync.json:/run/secrets/customer-sync.json:ro
   logging:
     driver: json-file
     options:
@@ -75,7 +77,11 @@ services:
 volumes:
   database:
   redis:
+    name: vscrm-prod_redis_20260917
+    external: true
   files:
+    name: vscrm-prod_files_20260917
+    external: true
 
 secrets:
   db_password:
