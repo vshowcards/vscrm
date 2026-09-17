@@ -1,5 +1,7 @@
 # Campaigns using the existing SMTP account
 
+The implementation is now deployed to the VPS; see [the live deployment record](../../deploy/vps/CAMPAIGN_DEPLOYMENT_20260917.md). The local-only state below records the original implementation verification. Production public unsubscribe verification and Mailgun authentication have since passed without email delivery.
+
 ## Scope and current state
 
 Implemented September 17, 2026. Campaigns can reuse a connected SMTP account (including Mailgun), its encrypted credentials, and the existing SMTP client. Ordinary People email keeps its existing routing. No dependency, database schema, or migration change is required.

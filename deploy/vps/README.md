@@ -1,5 +1,7 @@
 # VPS deployment
 
+Current release: [Campaign and audience deployment](CAMPAIGN_DEPLOYMENT_20260917.md), application commit `3c655eaf54`, with fresh local data and verified public unsubscribe/SMTP configuration.
+
 For the 2026-09-17 local-data replacement, current configuration differences and rollback procedure, see [Local VSCMS copy to VPS](LOCAL_COPY_20260917.md). The sections below record the original 2026-09-14 deployment and are historical where that newer runbook differs.
 
 Deployment target: `145.223.21.233`, existing Nginx managed under `/www/server/panel/vhost/nginx`.
