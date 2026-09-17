@@ -1,4 +1,5 @@
 import { isUnsubscribeTokenExpired } from 'src/engine/core-modules/emailing-domain/utils/is-unsubscribe-token-expired.util';
+import { createHash } from 'crypto';
 import {
   BadRequestException,
   Body,
@@ -55,6 +56,22 @@ export class UnsubscribeController {
     private readonly messageSuppressionService: MessageSuppressionService,
     private readonly throttlerService: ThrottlerService,
   ) {}
+
+  @Get('verify')
+  @Header('Cache-Control', 'no-store')
+  async verifyPublicEndpoint(
+    @Query('t') token: string,
+    @Req() request: Request,
+  ): Promise<{ challenge: string }> {
+    await this.throttleByRequesterOrThrow(request);
+    const { payload, isExpired } = this.verifyTokenOrThrow(token);
+
+    if (payload.preview !== true || isExpired) {
+      throw new BadRequestException('A valid preview token is required');
+    }
+
+    return { challenge: createHash('sha256').update(token).digest('hex') };
+  }
 
   private async throttleOrThrow(bucketKey: string): Promise<void> {
     try {

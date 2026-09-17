@@ -19,6 +19,7 @@ import { useViewById } from '@/views/hooks/useViewById';
 import { styled } from '@linaria/react';
 import { isNonEmptyString } from '@sniptt/guards';
 import { useMemo } from 'react';
+import { CustomerGroupListAudience } from '@/activities/emails/components/CustomerGroupListAudience';
 import {
   computeRelationGqlFieldJoinColumnName,
   isDefined,
@@ -244,6 +245,11 @@ export const FieldWidgetRelationTable = ({
         currentRecord: filterCurrentRecord,
       }}
     >
+      {recordPageObjectMetadataNameSingular === 'messageList' &&
+        fieldName === 'members' &&
+        !isPageLayoutInEditMode && (
+          <CustomerGroupListAudience key={recordId} listId={recordId} />
+        )}
       <StyledContainer>
         <RecordTableWidgetRendererContent
           objectMetadataId={tableObjectMetadataId}

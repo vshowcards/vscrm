@@ -10,7 +10,7 @@ Source archive SHA-256: `799c13691a685ab83b6459f2ce6288e73b9e4f50dc938cca76db491
 
 The stack has a separate PostgreSQL 18 database, Redis 7 instance, worker, and file volume. Only the application port is published, on `127.0.0.1:3200`. Existing VPS applications and host databases are separate.
 
-Runtime configuration is in `/opt/vscrm/app.env` with mode `0600`; the database secret is in `/opt/vscrm/secrets/db_password`. Do not commit or print these files. The first administrator is `admin@vshowcards.com`; temporary credentials are in `/opt/vscrm/secrets/admin-credentials.txt`, accessible only to root. Retrieve them privately over SSH and change the password after login. Do not rerun the completed bootstrap script.
+Runtime configuration is in `/opt/vscrm/app.env` with mode `0600`; the database secret is in `/opt/vscrm/secrets/db_password`. Do not commit or print these files. The original bootstrap administrator's temporary credentials were stored in `/opt/vscrm/secrets/admin-credentials.txt`, accessible only to root. That historical bootstrap record is not the current login or campaign sender configuration; consult the newer local-copy runbook. Do not rerun the completed bootstrap script.
 
 The user confirmed `vscrm.vshowcards.com`; the initial spelling `vscms.vshowcards.com` was a typo. DNS resolves through Cloudflare. Only the confirmed site's Nginx configuration was replaced; unrelated virtual hosts were preserved.
 

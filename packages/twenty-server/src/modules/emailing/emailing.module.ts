@@ -1,4 +1,8 @@
 import { Module } from '@nestjs/common';
+import { CampaignSmtpService } from 'src/modules/emailing/services/campaign-smtp.service';
+import { ConnectedAccountEntity } from 'src/engine/metadata-modules/connected-account/entities/connected-account.entity';
+import { MessagingSmtpDriverModule } from 'src/modules/messaging/message-import-manager/drivers/smtp/messaging-smtp-driver.module';
+import { SecureHttpClientModule } from 'src/engine/core-modules/secure-http-client/secure-http-client.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 import { ActorModule } from 'src/engine/core-modules/actor/actor.module';
@@ -52,6 +56,8 @@ import { SaveCampaignTool } from 'src/modules/emailing/tools/save-campaign-tool'
 
 @Module({
   imports: [
+    MessagingSmtpDriverModule,
+    SecureHttpClientModule,
     ActorModule,
     EmailingDomainModule,
     ThrottlerModule,
@@ -66,6 +72,7 @@ import { SaveCampaignTool } from 'src/modules/emailing/tools/save-campaign-tool'
     WorkspaceManyOrAllFlatEntityMapsCacheModule,
     UsageLimitModule,
     TypeOrmModule.forFeature([
+      ConnectedAccountEntity,
       MessageChannelEntity,
       EmailingDomainEntity,
       MessageSuppressionEntity,
@@ -76,6 +83,7 @@ import { SaveCampaignTool } from 'src/modules/emailing/tools/save-campaign-tool'
   ],
   controllers: [UnsubscribeController],
   providers: [
+    CampaignSmtpService,
     CampaignVariableService,
     EmailBillingService,
     MessageCampaignService,

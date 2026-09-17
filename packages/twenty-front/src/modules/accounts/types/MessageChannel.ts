@@ -1,5 +1,6 @@
 import {
   type MessageChannelType,
+  type ConnectedAccountProvider,
   type MessageChannelContactAutoCreationPolicy,
   type MessageChannelSyncStage,
   type MessageChannelSyncStatus,
@@ -26,6 +27,7 @@ export type MessageChannel = {
   connectedAccount: {
     id: string;
     handle: string;
+    provider?: ConnectedAccountProvider;
   } | null;
   createdAt: string;
   updatedAt: string;

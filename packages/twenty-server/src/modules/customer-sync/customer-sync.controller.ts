@@ -5,6 +5,7 @@ import {
   ForbiddenException,
   Get,
   Param,
+  ParseUUIDPipe,
   Query,
   Post,
   Req,
@@ -18,11 +19,65 @@ import { CustomPermissionGuard } from 'src/engine/guards/custom-permission.guard
 import { WorkspaceAuthGuard } from 'src/engine/guards/workspace-auth.guard';
 
 import { CustomerSyncService } from './customer-sync.service';
+import {
+  CustomerListAudienceService,
+  parseAudienceGroup,
+} from './customer-list-audience.service';
 
 @Controller('app/customer-sync')
 @UseGuards(JwtAuthGuard, WorkspaceAuthGuard, CustomPermissionGuard)
 export class CustomerSyncController {
-  constructor(private readonly sync: CustomerSyncService) {}
+  constructor(
+    private readonly sync: CustomerSyncService,
+    private readonly audiences: CustomerListAudienceService,
+  ) {}
+
+  @Get('lists/:listId/audience')
+  async audience(
+    @Req() request: Request,
+    @Param('listId', ParseUUIDPipe) listId: string,
+  ) {
+    const { workspaceId } = await this.context(request);
+    return this.audiences.status(workspaceId, listId);
+  }
+
+  @Post('lists/:listId/audience/preview')
+  async previewAudience(
+    @Req() request: Request,
+    @Param('listId', ParseUUIDPipe) listId: string,
+    @Body() body: { group?: unknown },
+  ) {
+    const { workspaceId } = await this.context(request);
+    return this.audiences.preview(
+      workspaceId,
+      listId,
+      parseAudienceGroup(body?.group),
+    );
+  }
+
+  @Post('lists/:listId/audience/apply')
+  async applyAudience(
+    @Req() request: Request,
+    @Param('listId', ParseUUIDPipe) listId: string,
+    @Body() body: { group?: unknown; automatic?: unknown },
+  ) {
+    const { workspaceId, userId } = await this.context(request);
+    if (typeof body?.automatic !== 'boolean') throw new BadRequestException();
+    return this.audiences.apply(workspaceId, listId, {
+      group: parseAudienceGroup(body?.group),
+      automatic: body.automatic,
+      actorId: userId,
+    });
+  }
+
+  @Post('lists/:listId/audience/disable')
+  async disableAudience(
+    @Req() request: Request,
+    @Param('listId', ParseUUIDPipe) listId: string,
+  ) {
+    const { workspaceId, userId } = await this.context(request);
+    return this.audiences.disable(workspaceId, listId, userId);
+  }
 
   private async context(request: Request) {
     if (!request.workspace || !request.user) throw new ForbiddenException();

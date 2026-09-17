@@ -8,6 +8,7 @@ import { PermissionsModule } from 'src/engine/metadata-modules/permissions/permi
 import { WorkspaceCacheStorageModule } from 'src/engine/workspace-cache-storage/workspace-cache-storage.module';
 
 import { CustomerSyncConfig } from './customer-sync.config';
+import { CustomerListAudienceService } from './customer-list-audience.service';
 import { CustomerSyncController } from './customer-sync.controller';
 import { CustomerSyncService } from './customer-sync.service';
 import { CustomerSyncSourceService } from './customer-sync-source.service';
@@ -23,6 +24,7 @@ import { CustomerSyncTargetService } from './customer-sync-target.service';
   ],
   controllers: [CustomerSyncController],
   providers: [
+    CustomerListAudienceService,
     CustomerSyncConfig,
     CustomerSyncService,
     CustomerSyncSourceService,

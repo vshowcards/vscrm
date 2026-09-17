@@ -45,6 +45,7 @@ import { provideWorkspaceScopedRepository } from 'src/engine/twenty-orm/workspac
     EnterpriseModule,
   ],
   exports: [
+    UnsubscribeContentService,
     EmailingDomainService,
     EmailingDomainTenantStatusService,
     EmailingDomainDriverFactory,

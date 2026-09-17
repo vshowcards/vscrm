@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CampaignSmtpService } from 'src/modules/emailing/services/campaign-smtp.service';
 
 import { isNonEmptyString } from '@sniptt/guards';
 import { MessageCampaignStatus } from 'twenty-shared/types';
@@ -59,6 +60,7 @@ export class MessageCampaignService {
     private readonly messageCampaignLifecycleService: MessageCampaignLifecycleService,
     private readonly throttlerService: ThrottlerService,
     private readonly emailBillingService: EmailBillingService,
+    private readonly campaignSmtpService: CampaignSmtpService,
   ) {}
 
   async send({
@@ -306,6 +308,16 @@ export class MessageCampaignService {
         `No verified emailing domain matches the from address ${fromAddress}`,
         EmailingDomainExceptionCode.EMAILING_DOMAIN_NOT_VERIFIED,
       );
+    }
+
+    const smtpAccount = await this.campaignSmtpService.findAccount(
+      workspaceId,
+      fromAddress,
+    );
+
+    if (smtpAccount) {
+      await this.campaignSmtpService.getUnsubscribeBaseUrl(emailingDomain);
+      return emailingDomain;
     }
 
     if (

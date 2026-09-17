@@ -23,7 +23,10 @@ export class SmtpClientProvider {
     private readonly connectedAccountRepository: Repository<ConnectedAccountEntity>,
   ) {}
 
-  public async getClient(connectedAccountId: string): Promise<Transporter> {
+  public async getClient(
+    connectedAccountId: string,
+    verifyCertificate = false,
+  ): Promise<Transporter> {
     const connectedAccount = await this.connectedAccountRepository.findOne({
       where: { id: connectedAccountId },
     });
@@ -59,7 +62,8 @@ export class SmtpClientProvider {
         pass: smtpParams.password,
       },
       tls: {
-        rejectUnauthorized: false,
+        rejectUnauthorized: verifyCertificate,
+        servername: smtpParams.host,
       },
     };
 

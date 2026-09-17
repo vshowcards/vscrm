@@ -29,7 +29,7 @@ describe('test account exclusion', () => {
     'contestwinner@gmail.com',
     'latestnews@gmail.com',
     'democrat@gmail.com',
-    'admin@vshowcards.com',
+    'alex@vshowcards.com',
   ])('keeps ordinary and staff addresses: %s', (email) => {
     expect(testAccountReasons({ full_name: 'Alex Reece', email })).toEqual([]);
   });

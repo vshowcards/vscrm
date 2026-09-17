@@ -1,4 +1,5 @@
 import { Injectable } from '@nestjs/common';
+import { CampaignSmtpService } from 'src/modules/emailing/services/campaign-smtp.service';
 import { InjectRepository } from '@nestjs/typeorm';
 
 import { isNonEmptyString } from '@sniptt/guards';
@@ -39,6 +40,7 @@ export class EmailingDomainSenderService {
     private readonly messageSuppressionService: MessageSuppressionService,
     @InjectRepository(MessageChannelEntity)
     private readonly messageChannelRepository: Repository<MessageChannelEntity>,
+    private readonly campaignSmtpService: CampaignSmtpService,
   ) {}
 
   async sendEmail(
@@ -80,6 +82,18 @@ export class EmailingDomainSenderService {
       cc: recipients.cc,
       bcc: recipients.bcc,
     };
+
+    const smtpAccount =
+      emailContent.sendKind === 'MARKETING'
+        ? await this.campaignSmtpService.findAccount(
+            workspaceId,
+            emailContent.from,
+          )
+        : null;
+
+    if (smtpAccount) {
+      return this.campaignSmtpService.sendEmail(smtpAccount, emailToSend);
+    }
 
     return this.emailingDomainDriverFactory
       .getCurrentDriver()
@@ -144,24 +158,32 @@ export class EmailingDomainSenderService {
       from,
     );
 
-    const { entries } = await this.emailingDomainDriverFactory
-      .getCurrentDriver()
-      .sendEmailBatch({
-        sendKind,
-        workspaceId,
-        domain: emailingDomain.domain,
-        emailingDomain,
-        from: formatMessageFromHeader({
-          fromEmail: from,
-          fromName: emailGroupChannel?.displayName,
-        }),
-        replyTo: isNonEmptyString(emailGroupChannel?.handle)
-          ? [emailGroupChannel.handle]
-          : undefined,
-        template,
-        recipients: deliverableRecipients,
-        unsubscribeTopicId,
-      });
+    const batchRequest = {
+      sendKind,
+      workspaceId,
+      domain: emailingDomain.domain,
+      emailingDomain,
+      from: formatMessageFromHeader({
+        fromEmail: from,
+        fromName: emailGroupChannel?.displayName,
+      }),
+      replyTo: isNonEmptyString(emailGroupChannel?.handle)
+        ? [emailGroupChannel.handle]
+        : undefined,
+      template,
+      recipients: deliverableRecipients,
+      unsubscribeTopicId,
+    };
+
+    const smtpAccount =
+      sendKind === 'MARKETING'
+        ? await this.campaignSmtpService.findAccount(workspaceId, from)
+        : null;
+    const { entries } = smtpAccount
+      ? await this.campaignSmtpService.sendEmailBatch(smtpAccount, batchRequest)
+      : await this.emailingDomainDriverFactory
+          .getCurrentDriver()
+          .sendEmailBatch(batchRequest);
 
     return {
       entries: entries.map((entry) => ({

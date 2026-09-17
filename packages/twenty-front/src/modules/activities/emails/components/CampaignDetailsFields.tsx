@@ -2,6 +2,7 @@ import { styled } from '@linaria/react';
 import { t } from '@lingui/core/macro';
 import {
   CoreObjectNameSingular,
+  ConnectedAccountProvider,
   MessageChannelType,
 } from 'twenty-shared/types';
 import { isDefined } from 'twenty-shared/utils';
@@ -15,6 +16,7 @@ import {
   CampaignEnvelopeRow,
 } from '@/activities/emails/components/CampaignEnvelopeBox';
 import { useCampaignDetailsState } from '@/activities/emails/hooks/useCampaignDetailsState';
+import { CustomerGroupListAudience } from '@/activities/emails/components/CustomerGroupListAudience';
 import { useUnsubscribeTopics } from '@/activities/emails/hooks/useUnsubscribeTopics';
 import { type MessageCampaign } from '@/activities/emails/types/MessageCampaign';
 import { useCreateOneRecord } from '@/object-record/hooks/useCreateOneRecord';
@@ -66,11 +68,19 @@ export const CampaignDetailsFields = ({
     }
   };
 
-  const senderOptions: SelectOption<string>[] = channels
-    .filter((channel) => channel.type === MessageChannelType.EMAIL_GROUP)
-    .map((channel) => channel.connectedAccount?.handle)
-    .filter(isDefined)
-    .map((handle) => ({ label: handle, value: handle }));
+  const senderOptions: SelectOption<string>[] = [
+    ...new Set(
+      channels
+        .filter(
+          (channel) =>
+            channel.type === MessageChannelType.EMAIL_GROUP ||
+            channel.connectedAccount?.provider ===
+              ConnectedAccountProvider.IMAP_SMTP_CALDAV,
+        )
+        .map((channel) => channel.connectedAccount?.handle)
+        .filter(isDefined),
+    ),
+  ].map((handle) => ({ label: handle, value: handle }));
 
   const topicOptions: SelectOption<string>[] = unsubscribeTopics.map(
     (topic) => ({
@@ -87,16 +97,24 @@ export const CampaignDetailsFields = ({
       width={width}
       onBlur={() => detailsState.flush()}
       below={
-        !hasSenderOptions && (
-          <StyledWarningContainer>
-            <InlineBanner
-              embedded
-              color="danger"
-              LeftIcon={IconAlertTriangle}
-              message={t`No sending address. Connect a verified domain in Settings.`}
+        <>
+          {detailsState.listId && (
+            <CustomerGroupListAudience
+              key={detailsState.listId}
+              listId={detailsState.listId}
             />
-          </StyledWarningContainer>
-        )
+          )}
+          {!hasSenderOptions && (
+            <StyledWarningContainer>
+              <InlineBanner
+                embedded
+                color="danger"
+                LeftIcon={IconAlertTriangle}
+                message={t`No sending address. Connect an SMTP account or a verified sending domain in Settings.`}
+              />
+            </StyledWarningContainer>
+          )}
+        </>
       }
     >
       <CampaignEnvelopeRow label={t`From`}>

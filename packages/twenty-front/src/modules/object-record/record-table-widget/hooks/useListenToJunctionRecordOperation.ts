@@ -1,7 +1,8 @@
 import { useListenToObjectRecordOperationBrowserEvent } from '@/browser-event/hooks/useListenToObjectRecordOperationBrowserEvent';
 import { type ObjectRecordOperationBrowserEventDetail } from '@/browser-event/types/ObjectRecordOperationBrowserEventDetail';
 import { RecordTableWidgetContext } from '@/object-record/record-table-widget/contexts/RecordTableWidgetContext';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
+import { CUSTOMER_LIST_AUDIENCE_CHANGED } from '@/activities/emails/utils/notifyCustomerListAudienceChanged';
 import { isDefined } from 'twenty-shared/utils';
 
 // A junction widget's rows come and go with junction records, which are
@@ -14,6 +15,28 @@ export const useListenToJunctionRecordOperation = ({
   const junctionCreateThrough = useContext(
     RecordTableWidgetContext,
   )?.junctionCreateThrough;
+
+  useEffect(() => {
+    if (
+      junctionCreateThrough?.junctionObjectMetadataNameSingular !==
+      'messageListMember'
+    )
+      return;
+    const onAudienceChanged = (event: Event) => {
+      if (
+        event instanceof CustomEvent &&
+        event.detail === junctionCreateThrough.sourceRecordId
+      ) {
+        onJunctionRecordOperation();
+      }
+    };
+    window.addEventListener(CUSTOMER_LIST_AUDIENCE_CHANGED, onAudienceChanged);
+    return () =>
+      window.removeEventListener(
+        CUSTOMER_LIST_AUDIENCE_CHANGED,
+        onAudienceChanged,
+      );
+  }, [junctionCreateThrough, onJunctionRecordOperation]);
 
   const handleJunctionRecordOperation = ({
     operation,

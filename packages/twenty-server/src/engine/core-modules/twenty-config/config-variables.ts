@@ -2235,6 +2235,26 @@ export class ConfigVariables {
   EMAILING_DOMAIN_DRIVER: EmailingDomainDriver = EmailingDomainDriver.LOG;
 
   @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
+      'Explicit connected SMTP account used for campaigns from its exact email address. Empty keeps the existing domain driver.',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsString()
+  CAMPAIGN_SMTP_CONNECTED_ACCOUNT_ID: string = '';
+
+  @ConfigVariablesMetadata({
+    group: ConfigVariablesGroup.ADVANCED_SETTINGS,
+    description:
+      'Public HTTPS origin serving this installation’s unsubscribe endpoints. Verified before SMTP campaign sends.',
+    type: ConfigVariableType.STRING,
+    isEnvOnly: true,
+  })
+  @IsString()
+  CAMPAIGN_UNSUBSCRIBE_BASE_URL: string = '';
+
+  @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.AWS_SES_SETTINGS,
     description: 'AWS region',
     type: ConfigVariableType.STRING,
