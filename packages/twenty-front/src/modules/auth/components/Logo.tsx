@@ -46,7 +46,9 @@ const StyledSecondaryLogoContainer = styled.div`
 `;
 
 const StyledPrimaryLogo = styled.div`
-  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
   height: 100%;
   width: 100%;
 `;
@@ -59,7 +61,7 @@ export const Logo = ({
   to = AppPath.SignInUp,
 }: LogoProps) => {
   const { redirectToDefaultDomain } = useRedirectToDefaultDomain();
-  const defaultPrimaryLogoUrl = `${window.location.origin}/images/icons/android/android-launchericon-192-192.png`;
+  const defaultPrimaryLogoUrl = `${window.location.origin}/images/vscms.png`;
 
   const primaryLogoUrl = getImageAbsoluteURI({
     imageUrl: primaryLogo ?? defaultPrimaryLogoUrl,
@@ -80,6 +82,8 @@ export const Logo = ({
       {isUsingDefaultLogo ? (
         <UndecoratedLink to={to} onClick={() => redirectToDefaultDomain()}>
           <StyledPrimaryLogo
+            role="img"
+            aria-label="VSCMS"
             style={{ backgroundImage: `url(${primaryLogoUrl})` }}
           />
         </UndecoratedLink>

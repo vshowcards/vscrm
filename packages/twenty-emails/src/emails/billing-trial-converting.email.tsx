@@ -17,7 +17,7 @@ type BillingTrialConvertingEmailProps = {
 
 // Sent 7 days before a trial WITH a credit card ends, i.e. before the first charge.
 // Goal: be transparent and fair — no surprise charge. The user can cancel in one click
-// before the date if Twenty is not the right fit. This is intentionally not a dark pattern.
+// before the date if VSCMS is not the right fit. This is intentionally not a dark pattern.
 export const BillingTrialConvertingEmail = ({
   userName,
   workspaceDisplayName,
@@ -62,7 +62,7 @@ export const BillingTrialConvertingEmail = ({
         )}
         <br />
         <br />
-        <Trans id="If Twenty is working for you, you're all set — there's nothing to do. If it's not the right fit, you can cancel in one click before then and you won't be charged." />
+        <Trans id="If VSCMS is working for you, you're all set — there's nothing to do. If it's not the right fit, you can cancel in one click before then and you won't be charged." />
       </MainText>
       <br />
       <CallToAction href={link} value={i18n._('Manage subscription')} />

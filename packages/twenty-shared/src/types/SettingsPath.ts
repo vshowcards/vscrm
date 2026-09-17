@@ -64,6 +64,7 @@ export enum SettingsPath {
   NewLogicFunction = 'functions/new',
   LogicFunctionDetail = 'functions/:logicFunctionId',
   ApiWebhooks = 'mcp-apis',
+  CustomerSync = 'customer-sync',
   RestPlayground = 'playground/rest/:schema',
   GraphQLPlayground = 'playground/graphql/:schema',
   NewApiKey = 'mcp-apis/apis/new',

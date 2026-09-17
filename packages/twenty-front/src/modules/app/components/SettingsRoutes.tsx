@@ -29,6 +29,12 @@ const SettingsGraphQLPlayground = lazy(() =>
   ),
 );
 
+const SettingsCustomerSync = lazy(() =>
+  import('~/pages/settings/customer-sync/SettingsCustomerSync').then(
+    (module) => ({ default: module.SettingsCustomerSync }),
+  ),
+);
+
 const SettingsRestPlayground = lazy(() =>
   import('~/pages/settings/developers/playground/SettingsRestPlayground').then(
     (module) => ({
@@ -1021,6 +1027,10 @@ const createSettingsRouteElements = ({
       <Route
         path={SettingsPath.ApiWebhooks}
         element={<SettingsApiWebhooks />}
+      />
+      <Route
+        path={SettingsPath.CustomerSync}
+        element={<SettingsCustomerSync />}
       />
       <Route
         path={`${SettingsPath.GraphQLPlayground}`}

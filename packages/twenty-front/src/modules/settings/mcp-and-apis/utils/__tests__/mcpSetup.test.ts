@@ -42,7 +42,7 @@ describe('buildMcpConfig', () => {
   it('builds the remote MCP JSON config', () => {
     expect(JSON.parse(buildMcpConfig(mcpServerUrl))).toEqual({
       mcpServers: {
-        twenty: {
+        vscms: {
           url: mcpServerUrl,
           headers: {
             Authorization: 'Bearer <YOUR_API_KEY>',
@@ -73,7 +73,7 @@ describe('buildClaudeInstallLink', () => {
       true,
     );
     expect(params.get('modal')).toBe('add-custom-connector');
-    expect(params.get('connectorName')).toBe('Twenty');
+    expect(params.get('connectorName')).toBe('VSCMS');
     expect(params.get('connectorUrl')).toBe(mcpServerUrl);
   });
 });
@@ -83,7 +83,7 @@ describe('buildCursorInstallLink', () => {
     const link = buildCursorInstallLink(mcpServerUrl);
 
     expect(link.startsWith('https://cursor.com/en/install-mcp?')).toBe(true);
-    expect(new URLSearchParams(link.split('?')[1]).get('name')).toBe('twenty');
+    expect(new URLSearchParams(link.split('?')[1]).get('name')).toBe('vscms');
     expect(decodeBase64JsonParam(link, 'config')).toEqual(
       buildRemoteMcpServerConfig(mcpServerUrl),
     );
@@ -99,7 +99,7 @@ describe('buildVsCodeInstallLink', () => {
     );
 
     expect(payload).toEqual({
-      name: 'twenty',
+      name: 'vscms',
       type: 'http',
       url: mcpServerUrl,
       headers: {
@@ -116,8 +116,8 @@ describe('buildGooseInstallLink', () => {
 
     expect(link.startsWith('goose://extension?')).toBe(true);
     expect(params.get('type')).toBe('streamable_http');
-    expect(params.get('id')).toBe('twenty');
-    expect(params.get('name')).toBe('Twenty');
+    expect(params.get('id')).toBe('vscms');
+    expect(params.get('name')).toBe('VSCMS');
     expect(params.get('url')).toBe(mcpServerUrl);
     expect(params.get('header')).toBe('Authorization=Bearer <YOUR_API_KEY>');
   });
@@ -129,7 +129,7 @@ describe('buildReplitInstallLink', () => {
 
     expect(link.startsWith('https://replit.com/integrations?')).toBe(true);
     expect(decodeBase64JsonParam(link, 'mcp')).toEqual({
-      displayName: 'Twenty',
+      displayName: 'VSCMS',
       baseUrl: mcpServerUrl,
       headers: [
         {
@@ -146,7 +146,7 @@ describe('buildLmStudioInstallLink', () => {
     const link = buildLmStudioInstallLink(mcpServerUrl);
 
     expect(link.startsWith('lmstudio://add_mcp?')).toBe(true);
-    expect(new URLSearchParams(link.split('?')[1]).get('name')).toBe('twenty');
+    expect(new URLSearchParams(link.split('?')[1]).get('name')).toBe('vscms');
     expect(decodeBase64JsonParam(link, 'config')).toEqual(
       buildRemoteMcpServerConfig(mcpServerUrl),
     );

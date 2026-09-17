@@ -35,7 +35,7 @@ const StyledAppLogoTile = styled.div`
 const StyledAppLogo = styled.img`
   border-radius: ${themeCssVariables.border.radius.sm};
   height: ${themeCssVariables.spacing[10]};
-  object-fit: cover;
+  object-fit: contain;
   width: ${themeCssVariables.spacing[10]};
 `;
 
@@ -66,7 +66,7 @@ export const AppConnectionHeader = ({
   return (
     <StyledContainer>
       <StyledAppLogoTile>
-        <StyledAppLogo src={'/images/integrations/twenty-logo.svg'} alt="" />
+        <StyledAppLogo src={'/images/vscms.png'} alt="VSCMS" />
       </StyledAppLogoTile>
       <StyledLinkIconContainer aria-hidden>
         <IconRefresh size={theme.icon.size.md} stroke={theme.icon.stroke.lg} />

@@ -108,7 +108,7 @@ export const SettingsAiModelTiersPreview = () => {
                     ? t`No model is available for this mode.`
                     : tier.isPinned
                       ? t`Manually selected for this mode.`
-                      : t`Automatically selected by Twenty for this mode.`
+                      : t`Automatically selected by VSCMS for this mode.`
                 }
                 delay={TooltipDelay.shortDelay}
               />

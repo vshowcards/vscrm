@@ -1,0 +1,82 @@
+name: vscrm-prod
+
+x-app: &app
+  image: vscrm:7d34959ca9
+  env_file: app.env
+  restart: unless-stopped
+  init: true
+  entrypoint: []
+  volumes:
+    - files:/app/packages/twenty-server/.local-storage
+  logging:
+    driver: json-file
+    options:
+      max-size: 10m
+      max-file: "3"
+
+services:
+  server:
+    <<: *app
+    command: [node, dist/main.js]
+    ports:
+      - "127.0.0.1:3200:3000"
+    mem_limit: 2g
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: [CMD, curl, --fail, --silent, http://localhost:3000/healthz]
+      interval: 15s
+      timeout: 5s
+      retries: 12
+      start_period: 90s
+
+  worker:
+    <<: *app
+    command: [node, dist/queue-worker/queue-worker.js]
+    mem_limit: 1536m
+    depends_on:
+      server:
+        condition: service_healthy
+
+  db:
+    image: postgres:18
+    restart: unless-stopped
+    mem_limit: 1g
+    environment:
+      POSTGRES_USER: vscrm
+      POSTGRES_DB: vscrm
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
+    volumes:
+      - database:/var/lib/postgresql
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U vscrm -d vscrm"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+  redis:
+    image: redis:7
+    restart: unless-stopped
+    mem_limit: 256m
+    command: [redis-server, --appendonly, "yes", --maxmemory, 192mb, --maxmemory-policy, noeviction]
+    volumes:
+      - redis:/data
+    healthcheck:
+      test: [CMD, redis-cli, ping]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+
+volumes:
+  database:
+  redis:
+  files:
+
+secrets:
+  db_password:
+    file: ./secrets/db_password

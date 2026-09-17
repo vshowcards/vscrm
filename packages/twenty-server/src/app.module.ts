@@ -38,6 +38,7 @@ import { TwentyOrmModule } from 'src/engine/twenty-orm/twenty-orm.module';
 import { WorkspaceCacheStorageModule } from 'src/engine/workspace-cache-storage/workspace-cache-storage.module';
 import { UnhandledExceptionFilter } from 'src/filters/unhandled-exception.filter';
 import { ModulesModule } from 'src/modules/modules.module';
+import { CustomerSyncModule } from 'src/modules/customer-sync/customer-sync.module';
 
 import { ClickHouseModule } from './database/clickhouse/clickhouse.module';
 import { CoreEngineModule } from './engine/core-modules/core-engine.module';
@@ -64,6 +65,7 @@ const MIGRATED_REST_METHODS = [
     ClickHouseModule,
     CoreEngineModule,
     ModulesModule,
+    CustomerSyncModule,
     // Needed for the user workspace middleware
     WorkspaceCacheStorageModule,
     CoreGraphQLApiModule,

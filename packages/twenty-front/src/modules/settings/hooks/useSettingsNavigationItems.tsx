@@ -155,6 +155,15 @@ const useSettingsNavigationItems = (): SettingsNavigationSection[] => {
           isHidden: !permissionMap[PermissionFlagType.API_KEYS_AND_WEBHOOKS],
         },
         // TODO: Re-enable when integrations page is ready
+        {
+          label: t`Sync Management`,
+          path: SettingsPath.CustomerSync,
+          Icon: IconPlug,
+          isHidden:
+            !permissionMap[PermissionFlagType.WORKSPACE] ||
+            !permissionMap[PermissionFlagType.DATA_MODEL] ||
+            !permissionMap[PermissionFlagType.WORKSPACE_MEMBERS],
+        },
         // {
         //   label: t`Integrations`,
         //   path: SettingsPath.Integrations,

@@ -125,10 +125,17 @@ export const NavigationDrawerItemForObjectMetadataItem = ({
     ? getNavigationMenuItemLabel(navigationMenuItem, objectMetadataItems, views)
     : objectMetadataItem.labelPlural;
 
+  const objectNavigationLabel =
+    objectMetadataItem.nameSingular === CoreObjectNameSingular.Person
+      ? t`Contacts/Peoples`
+      : objectMetadataItem.nameSingular === CoreObjectNameSingular.Opportunity
+        ? t`Leads/Opportunities`
+        : objectMetadataItem.labelPlural;
+
   const primaryLabel =
     isRecord || isViewWithResolvedView
       ? itemLabel
-      : objectMetadataItem.labelPlural;
+      : objectNavigationLabel;
 
   const needsInaccessibleRecordPlaceholder =
     isLayoutCustomizationModeEnabled &&
