@@ -32,7 +32,8 @@ export type CustomerSyncConfiguration = {
 @Injectable()
 export class CustomerSyncConfig {
   // A separate server-only file avoids exposing source credentials through the
-  // instance configuration GraphQL API. This first connector is local-only.
+  // instance configuration GraphQL API. Production requires explicit opt-in;
+  // metadata requests must still stay inside the application container.
   read(): CustomerSyncConfiguration | null {
     const path = process.env.CUSTOMER_SYNC_CONFIG_FILE;
 
@@ -65,7 +66,8 @@ export class CustomerSyncConfig {
       }
 
       if (
-        process.env.NODE_ENV === 'production' ||
+        (process.env.NODE_ENV === 'production' &&
+          process.env.CUSTOMER_SYNC_ALLOW_PRODUCTION !== 'true') ||
         !['localhost', '127.0.0.1'].includes(url.hostname) ||
         url.protocol !== 'http:' ||
         !/^[0-9a-f-]{36}$/i.test(value.workspaceId) ||

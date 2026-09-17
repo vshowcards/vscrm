@@ -244,7 +244,7 @@ export const SettingsCustomerSync = () => {
         <StyledCard>
           <h2>{t`vShowcards customer sync`}</h2>
           <p>{t`Keep contact details and customer groups up to date from vShowcards.`}</p>
-          <p>{t`Local testing only. Email, SMS, webhooks, and record-change automations are suppressed for sync writes.`}</p>
+          <p>{t`Email, SMS, webhooks, and record-change automations are suppressed for sync writes.`}</p>
           {status && (
             <>
               <p>
