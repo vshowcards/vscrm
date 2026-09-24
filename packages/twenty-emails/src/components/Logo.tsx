@@ -8,7 +8,7 @@ export const Logo = () => {
   return (
     <Img
       src="https://vshowcards.com/assets/images/favicon.ico"
-      alt="VSCMS logo"
+      alt="VSCRM logo"
       width="40"
       height="32"
       style={logoStyle}

@@ -10,8 +10,8 @@ export const MCP_SETUP = {
     value: 'Bearer <YOUR_API_KEY>',
   },
   server: {
-    name: 'vscms',
-    displayName: 'VSCMS',
+    name: 'vscrm',
+    displayName: 'VSCRM',
   },
   clientDocsUrls: {
     augment: 'https://docs.augmentcode.com/setup-augment/mcp',

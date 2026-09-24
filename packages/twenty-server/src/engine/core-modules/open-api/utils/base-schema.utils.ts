@@ -12,7 +12,7 @@ export const baseSchema = (
   return {
     openapi: '3.1.1',
     info: {
-      title: 'VSCMS Api',
+      title: 'VSCRM Api',
       description: `Use this page to explore and call the **REST API**.
 
 ## Authentication
@@ -106,7 +106,7 @@ order_by=id[AscNullsFirst],createdAt[DescNullsLast]
 ## Usage with LLMs
 
 The recommended way to give an LLM agent (Claude Desktop, Cursor, Windsurf, …)
-access to your workspace is the **VSCMS MCP server**, not this OpenAPI schema.
+access to your workspace is the **VSCRM MCP server**, not this OpenAPI schema.
 The MCP server exposes typed tools the agent can call directly with proper
 header-based auth (OAuth or API key), no tokens in URLs.
 
@@ -159,7 +159,7 @@ curl -H 'Authorization: Bearer <token>' \\
       },
     ],
     externalDocs: {
-      description: 'Find out more about **VSCMS**',
+      description: 'Find out more about **VSCRM**',
       url: 'https://twenty.com',
     },
     paths: { [`/open-api/${schemaName}`]: computeOpenApiPath(serverUrl) },

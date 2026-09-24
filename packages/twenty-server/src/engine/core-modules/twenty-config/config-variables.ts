@@ -494,7 +494,7 @@ export class ConfigVariables {
     description: 'Name used in the From header for outgoing emails',
     type: ConfigVariableType.STRING,
   })
-  EMAIL_FROM_NAME = 'VSCMS';
+  EMAIL_FROM_NAME = 'VSCRM';
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.EMAIL_SETTINGS,
@@ -2156,7 +2156,7 @@ export class ConfigVariables {
 
   @ConfigVariablesMetadata({
     group: ConfigVariablesGroup.SERVER_CONFIG,
-    description: 'VSCMS server version',
+    description: 'VSCRM server version',
     type: ConfigVariableType.STRING,
     isEnvOnly: true,
     isHiddenInAdminPanel: true,

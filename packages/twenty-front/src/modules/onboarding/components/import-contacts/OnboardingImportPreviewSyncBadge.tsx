@@ -47,7 +47,7 @@ export const OnboardingImportPreviewSyncBadge = () => {
         size={theme.icon.size.md}
         color={themeCssVariables.font.color.tertiary}
       />
-      <StyledTwentyLogo src="/images/vscms.png" alt="VSCMS" />
+      <StyledTwentyLogo src="/images/vscrm.png" alt="VSCRM" />
     </StyledBadge>
   );
 };

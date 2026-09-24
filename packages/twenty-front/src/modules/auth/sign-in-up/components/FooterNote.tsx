@@ -71,7 +71,7 @@ export const FooterNote = ({
   if (!isOnAWorkspace) {
     return (
       <StyledCopyContainer>
-        <Trans>By using VSCMS, you agree to the</Trans>{' '}
+        <Trans>By using VSCRM, you agree to the</Trans>{' '}
         <a
           href="https://twenty.com/legal/terms"
           target="_blank"

@@ -15,7 +15,7 @@ This documentation supports future review and development of the `vshowcards/vsc
 - [Live campaign deployment](../../deploy/vps/CAMPAIGN_DEPLOYMENT_20260917.md): current VPS image/data snapshot, campaign SMTP setup, no-send checks, and rollback.
 - [Campaign SMTP and unsubscribe setup](CAMPAIGN_SMTP.md): reuse the existing Mailgun SMTP account, public endpoint verification, safeguards, and no-send validation.
 - [Campaign group audiences](CAMPAIGN_GROUP_AUDIENCES.md): customer-group lists, preview/apply controls, automatic membership updates, and operator steps.
-- [VSCMS branding](VSCMS_BRANDING.md): application name, icon assets, retained technical names and verification.
+- [VSCRM branding](VSCRM_BRANDING.md): application name, icon assets, retained technical names and verification.
 - [Sync dashboard performance](SYNC_DASHBOARD_PERFORMANCE.md): lightweight summaries, on-demand result pages and idle polling behavior.
 - [Test-account sync exclusions](TEST_ACCOUNT_SYNC_FILTER.md): name/email rules and treatment of already imported test contacts.
 - [Full local customer sync](FULL_CUSTOMER_SYNC.md): current all-member scope, payment-review contact imports, and full import verification.

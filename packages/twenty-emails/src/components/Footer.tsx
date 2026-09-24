@@ -20,7 +20,7 @@ export const Footer = ({ i18n }: FooterProps) => {
             <Link
               href="https://vshowcards.com/"
               value={i18n._('Website')}
-              aria-label={i18n._("Visit VSCMS's website")}
+              aria-label={i18n._("Visit VSCRM's website")}
             />
           </ShadowText>
         </Column>
@@ -29,7 +29,7 @@ export const Footer = ({ i18n }: FooterProps) => {
             <Link
               href="https://github.com/vshowcards/vscrm"
               value={i18n._('Github')}
-              aria-label={i18n._("Visit VSCMS's GitHub repository")}
+              aria-label={i18n._("Visit VSCRM's GitHub repository")}
             />
           </ShadowText>
         </Column>
@@ -54,7 +54,7 @@ export const Footer = ({ i18n }: FooterProps) => {
       </Row>
       <ShadowText>
         <>
-          VSCMS
+          VSCRM
           <br />
           vShowcards
         </>

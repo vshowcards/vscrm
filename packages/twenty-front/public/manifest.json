@@ -4,20 +4,20 @@
       "purpose": "any",
       "type": "image/png",
       "sizes": "192x192",
-      "src": "/images/vscms-192.png"
+      "src": "/images/vscrm-192.png"
     },
     {
       "purpose": "any",
       "type": "image/png",
       "sizes": "512x512",
-      "src": "/images/vscms-512.png"
+      "src": "/images/vscrm-512.png"
     }
   ],
   "description": "vShowcards customer management",
   "background_color": "#ffffff",
   "theme_color": "#000000",
-  "name": "VSCMS",
+  "name": "VSCRM",
   "start_url": ".",
   "display": "standalone",
-  "short_name": "VSCMS"
+  "short_name": "VSCRM"
 }

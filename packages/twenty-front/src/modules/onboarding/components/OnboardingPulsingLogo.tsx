@@ -24,5 +24,5 @@ const StyledLogo = styled.img`
 `;
 
 export const OnboardingPulsingLogo = () => (
-  <StyledLogo src="/images/vscms.png" alt="VSCMS" />
+  <StyledLogo src="/images/vscrm.png" alt="VSCRM" />
 );

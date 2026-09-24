@@ -1,4 +1,4 @@
-# Local VSCMS copy to VPS — 2026-09-17
+# Local VSCRM copy to VPS — 2026-09-17
 
 ## Scope
 
@@ -35,7 +35,7 @@ Verified local/restored counts before activation: 2,034 People, 1 company, 36 ob
 
 Before cutover, 74 customer-sync tests, the dashboard request-volume test and server TypeScript check passed. The source archive, database dump and file archive checksums matched on both machines. The original VPS backup passed `pg_restore --list`, and the local dump was actually restored into the replacement database.
 
-After cutover verify container health, public HTTPS, login/token exchange, People count, custom fields/groups, Sync Management history/paused status, uploaded assets and VSCMS branding. Record the actual results in this file; build preparation is not evidence of a successful live deployment.
+After cutover verify container health, public HTTPS, login/token exchange, People count, custom fields/groups, Sync Management history/paused status, uploaded assets and VSCRM branding. Record the actual results in this file; build preparation is not evidence of a successful live deployment.
 
 ## Completed live checks
 
@@ -47,8 +47,8 @@ Deployment completed on 2026-09-17. Production Docker build passed, with image m
 - People metadata: 54 fields, including `customerGroups` and `registrationDate`.
 - Sync summary: configured, paused, 20 historical runs, zero running/queued runs. No new sync was executed.
 - Admin AI query: OpenRouter present, one available/enabled model. No billable completion request was sent.
-- HTML and favicon: HTTP 200; favicon 53,882 bytes; manifest name VSCMS; HTML contains no development API URL.
-- Browser: rendered VSCMS login logo and title, vShowcards workspace name, empty email input.
+- HTML and favicon: HTTP 200; favicon 53,882 bytes; manifest name VSCRM; HTML contains no development API URL.
+- Browser: rendered VSCRM login logo and title, vShowcards workspace name, empty email input.
 - Initial server/worker logs: zero `ERROR`, `FATAL` or `Unhandled` lines in the checked startup window. This is not an exhaustive audit.
 - Uploaded-file archive was copied with matching SHA-256 and extracted into the new file volume with runtime ownership. Individual attachment download flows were not exercised.
 

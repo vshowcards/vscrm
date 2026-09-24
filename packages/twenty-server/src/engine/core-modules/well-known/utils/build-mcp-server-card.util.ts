@@ -13,9 +13,9 @@ export const buildMcpServerCard = ({
     'https://static.modelcontextprotocol.io/schemas/v1/server-card.schema.json',
   name: 'com.twenty/twenty',
   version,
-  title: 'VSCMS CRM',
+  title: 'VSCRM CRM',
   description:
-    'Read and write your VSCMS CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
+    'Read and write your VSCRM CRM data - companies, people, opportunities, tasks, notes and any custom objects - from AI assistants. Tools are discovered at runtime and scoped to the authenticated workspace.',
   websiteUrl: 'https://twenty.com',
   repository: {
     url: 'https://github.com/twentyhq/twenty',

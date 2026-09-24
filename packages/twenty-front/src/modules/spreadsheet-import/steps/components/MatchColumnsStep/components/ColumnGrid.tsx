@@ -102,7 +102,7 @@ export const ColumnGrid = ({
         <StyledGrid>
           <StyledGridRow height="32px">
             <StyledGridHeader position="left">{t`Imported data`}</StyledGridHeader>
-            <StyledGridHeader position="right">{t`VSCMS fields`}</StyledGridHeader>
+            <StyledGridHeader position="right">{t`VSCRM fields`}</StyledGridHeader>
           </StyledGridRow>
           {columns.map((column, index) => {
             const userColumn = renderUserColumn(columns, index);

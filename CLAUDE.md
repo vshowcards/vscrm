@@ -8,6 +8,10 @@ Twenty is an open-source CRM — an Nx / Yarn 4 monorepo. Main packages: `twenty
 
 Match the surrounding code — the adjacent files in the directory you are editing beat any written rule, including for file naming, which varies by area.
 
+## User workflow preference
+
+Always apply the user's full-stack-developer-skill for work on this project. Its local skill file is at C:/Users/ASUS/.codex/skills/full-stack-developer-skill/SKILL.md. Follow the repository-specific conventions below when general skill guidance differs.
+
 ## House rules
 
 Where this repo differs from your defaults:

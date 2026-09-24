@@ -25,7 +25,7 @@ export const useBillingPortalSession = (returnUrlPath: string) => {
 
   const showBillingPortalSessionError = () => {
     enqueueErrorSnackBar({
-      message: t`Billing portal session error. Please retry or contact VSCMS team`,
+      message: t`Billing portal session error. Please retry or contact VSCRM team`,
     });
   };
 

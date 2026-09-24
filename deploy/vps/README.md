@@ -2,7 +2,7 @@
 
 Current release: [Campaign and audience deployment](CAMPAIGN_DEPLOYMENT_20260917.md), application commit `3c655eaf54`, with fresh local data and verified public unsubscribe/SMTP configuration.
 
-For the 2026-09-17 local-data replacement, current configuration differences and rollback procedure, see [Local VSCMS copy to VPS](LOCAL_COPY_20260917.md). The sections below record the original 2026-09-14 deployment and are historical where that newer runbook differs.
+For the 2026-09-17 local-data replacement, current configuration differences and rollback procedure, see [Local VSCRM copy to VPS](LOCAL_COPY_20260917.md). The sections below record the original 2026-09-14 deployment and are historical where that newer runbook differs.
 
 Deployment target: `145.223.21.233`, existing Nginx managed under `/www/server/panel/vhost/nginx`.
 
@@ -14,7 +14,7 @@ The stack has a separate PostgreSQL 18 database, Redis 7 instance, worker, and f
 
 Runtime configuration is in `/opt/vscrm/app.env` with mode `0600`; the database secret is in `/opt/vscrm/secrets/db_password`. Do not commit or print these files. The original bootstrap administrator's temporary credentials were stored in `/opt/vscrm/secrets/admin-credentials.txt`, accessible only to root. That historical bootstrap record is not the current login or campaign sender configuration; consult the newer local-copy runbook. Do not rerun the completed bootstrap script.
 
-The user confirmed `vscrm.vshowcards.com`; the initial spelling `vscms.vshowcards.com` was a typo. DNS resolves through Cloudflare. Only the confirmed site's Nginx configuration was replaced; unrelated virtual hosts were preserved.
+The user confirmed `vscrm.vshowcards.com` as the production domain. DNS resolves through Cloudflare. Only the confirmed site's Nginx configuration was replaced; unrelated virtual hosts were preserved.
 
 External email delivery, AI providers, billing, and sandboxed code execution are not configured. Email uses the logger driver until SMTP is configured; those logs can contain sensitive links. Runtime `SERVER_URL` and `FRONTEND_URL` use `https://vscrm.vshowcards.com`.
 

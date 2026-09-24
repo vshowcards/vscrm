@@ -52,7 +52,7 @@ describe('title-utils', () => {
     expect(getPageTitleFromPath('/settings/general')).toBe(
       'General - Settings',
     );
-    expect(getPageTitleFromPath('/')).toBe('VSCMS');
-    expect(getPageTitleFromPath('/random')).toBe('VSCMS');
+    expect(getPageTitleFromPath('/')).toBe('VSCRM');
+    expect(getPageTitleFromPath('/random')).toBe('VSCRM');
   });
 });

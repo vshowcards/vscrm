@@ -61,7 +61,7 @@ export const Logo = ({
   to = AppPath.SignInUp,
 }: LogoProps) => {
   const { redirectToDefaultDomain } = useRedirectToDefaultDomain();
-  const defaultPrimaryLogoUrl = `${window.location.origin}/images/vscms.png`;
+  const defaultPrimaryLogoUrl = `${window.location.origin}/images/vscrm.png`;
 
   const primaryLogoUrl = getImageAbsoluteURI({
     imageUrl: primaryLogo ?? defaultPrimaryLogoUrl,
@@ -83,7 +83,7 @@ export const Logo = ({
         <UndecoratedLink to={to} onClick={() => redirectToDefaultDomain()}>
           <StyledPrimaryLogo
             role="img"
-            aria-label="VSCMS"
+            aria-label="VSCRM"
             style={{ backgroundImage: `url(${primaryLogoUrl})` }}
           />
         </UndecoratedLink>

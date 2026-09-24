@@ -31,7 +31,7 @@ import {
 import isEmpty from 'lodash.isempty';
 import { getGenericOperationName, isDefined } from 'twenty-shared/utils';
 
-const logger = loggerLink(() => 'VSCMS');
+const logger = loggerLink(() => 'VSCRM');
 
 export interface Options {
   uri: string;

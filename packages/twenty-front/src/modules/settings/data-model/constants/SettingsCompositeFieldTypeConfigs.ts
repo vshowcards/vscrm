@@ -181,11 +181,11 @@ export const SETTINGS_COMPOSITE_FIELD_TYPE_CONFIGS = {
       {
         primaryLinkUrl: 'vshowcards.com',
         primaryLinkLabel: '',
-        secondaryLinks: [{ url: 'vshowcards.com', label: 'VSCMS' }],
+        secondaryLinks: [{ url: 'vshowcards.com', label: 'VSCRM' }],
       },
       {
         primaryLinkUrl: 'github.com/vshowcards/vscrm',
-        primaryLinkLabel: 'VSCMS Repo',
+        primaryLinkLabel: 'VSCRM Repo',
         secondaryLinks: [{ url: 'vshowcards.com', label: '' }],
       },
       {

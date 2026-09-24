@@ -58,7 +58,7 @@ const StyledRightSide = styled(StyledSide)`
 `;
 
 const StyledLogo = styled.div`
-  background-image: url('/images/vscms.png');
+  background-image: url('/images/vscrm.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: contain;

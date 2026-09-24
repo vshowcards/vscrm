@@ -115,7 +115,7 @@ export class TwoFactorAuthenticationService {
         workspaceId,
       });
 
-      const issuer = `VSCMS${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`;
+      const issuer = `VSCRM${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`;
       const reuseUri = authenticator.keyuri(userEmail, issuer, existingSecret);
 
       return reuseUri;
@@ -125,7 +125,7 @@ export class TwoFactorAuthenticationService {
       TOTP_DEFAULT_CONFIGURATION,
     ).initiate(
       userEmail,
-      `VSCMS${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`,
+      `VSCRM${workspaceDisplayName ? ` - ${workspaceDisplayName}` : ''}`,
     );
 
     const encryptedSecret = this.secretEncryptionService.encryptVersioned(

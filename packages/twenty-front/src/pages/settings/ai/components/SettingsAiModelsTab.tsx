@@ -59,7 +59,7 @@ export const SettingsAiModelsTab = () => {
             <SettingsOptionCardContentSelect
               Icon={IconMessage}
               title={t`AI chat`}
-              description={t`Model used when you chat with VSCMS`}
+              description={t`Model used when you chat with VSCRM`}
               divider
             >
               <Select
@@ -88,7 +88,7 @@ export const SettingsAiModelsTab = () => {
           <SettingsOptionCardContentSwitch
             Icon={IconWand}
             title={t`Choose automatically`}
-            description={t`VSCMS fills each level with the best model that meets your requirements`}
+            description={t`VSCRM fills each level with the best model that meets your requirements`}
             checked={isAutoModelSelectionEnabled}
             onChange={handleAutoModelSelectionToggle}
           />

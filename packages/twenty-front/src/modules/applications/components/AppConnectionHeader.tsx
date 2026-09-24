@@ -66,7 +66,7 @@ export const AppConnectionHeader = ({
   return (
     <StyledContainer>
       <StyledAppLogoTile>
-        <StyledAppLogo src={'/images/vscms.png'} alt="VSCMS" />
+        <StyledAppLogo src={'/images/vscrm.png'} alt="VSCRM" />
       </StyledAppLogoTile>
       <StyledLinkIconContainer aria-hidden>
         <IconRefresh size={theme.icon.size.md} stroke={theme.icon.stroke.lg} />

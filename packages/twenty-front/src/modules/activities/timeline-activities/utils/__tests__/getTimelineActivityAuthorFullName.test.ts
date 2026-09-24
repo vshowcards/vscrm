@@ -47,7 +47,7 @@ describe('getTimelineActivityAuthorFullName', () => {
     expect(result).toBe('Jane Smith');
   });
 
-  it('should return "VSCMS" if the workspace member is not defined', () => {
+  it('should return "VSCRM" if the workspace member is not defined', () => {
     const event = {};
     const currentWorkspaceMember = {
       id: '123',
@@ -58,6 +58,6 @@ describe('getTimelineActivityAuthorFullName', () => {
       currentWorkspaceMember as CurrentWorkspaceMember,
     );
 
-    expect(result).toBe('VSCMS');
+    expect(result).toBe('VSCRM');
   });
 });

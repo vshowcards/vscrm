@@ -16,7 +16,7 @@ export const PageTitle = (props: PageTitleProps) => {
   return (
     <Helmet>
       <title>
-        {props.title.includes('VSCMS') ? props.title : `${props.title} | VSCMS`}
+        {props.title.includes('VSCRM') ? props.title : `${props.title} | VSCRM`}
       </title>
     </Helmet>
   );
