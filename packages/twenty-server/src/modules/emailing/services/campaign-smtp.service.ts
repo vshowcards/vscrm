@@ -127,7 +127,10 @@ export class CampaignSmtpService {
     account: ConnectedAccountEntity,
     input: EmailingDomainSendEmailRequest,
   ): Promise<EmailingDomainSendEmailResult> {
-    const baseUrl = await this.getUnsubscribeBaseUrl(input.emailingDomain);
+    const baseUrl =
+      input.sendKind === 'TRANSACTIONAL'
+        ? null
+        : await this.getUnsubscribeBaseUrl(input.emailingDomain);
     return this.sendOne(account, input, baseUrl);
   }
 
@@ -186,7 +189,7 @@ export class CampaignSmtpService {
   private async sendOne(
     account: ConnectedAccountEntity,
     input: EmailingDomainSendEmailRequest,
-    baseUrl: string,
+    baseUrl: string | null,
   ): Promise<EmailingDomainSendEmailResult> {
     const email = this.unsubscribeContentService.addTo(input, baseUrl);
     let client: Transporter | undefined;

@@ -138,6 +138,26 @@ describe('Campaign SMTP transport (no network)', () => {
     expect(close).toHaveBeenCalledTimes(1);
   });
 
+  it('sends transactional email without requiring an unsubscribe endpoint', async () => {
+    await service.sendEmail(account, {
+      ...request,
+      sendKind: 'TRANSACTIONAL',
+      emailingDomain: {
+        ...domain,
+        unsubscribeHostnameStatus: null,
+      } as EmailingDomainEntity,
+    });
+    expect(sendMail).toHaveBeenCalledWith(
+      expect.objectContaining({
+        text: request.text,
+        html: request.html,
+        replyTo: account.handle,
+      }),
+    );
+    expect(get).not.toHaveBeenCalled();
+    expect(close).toHaveBeenCalledTimes(1);
+  });
+
   it('blocks unverified unsubscribe endpoints before opening SMTP', async () => {
     await expect(
       service.sendEmail(account, {

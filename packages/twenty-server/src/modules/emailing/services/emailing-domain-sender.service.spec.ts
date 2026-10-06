@@ -5,6 +5,7 @@ import { EmailingDomainSenderService } from 'src/modules/emailing/services/email
 import { CampaignSmtpService } from 'src/modules/emailing/services/campaign-smtp.service';
 import { MessageSuppressionService } from 'src/modules/emailing/services/message-suppression.service';
 import { EmailingDomainDriverFactory } from 'src/engine/core-modules/emailing-domain/drivers/emailing-domain-driver.factory';
+import { LogEmailingDomainDriver } from 'src/engine/core-modules/emailing-domain/drivers/log/services/log-emailing-domain-driver.service';
 import { EmailingDomainEntity } from 'src/engine/core-modules/emailing-domain/emailing-domain.entity';
 import { EmailingDomainStatus } from 'src/engine/core-modules/emailing-domain/drivers/types/emailing-domain-status.type';
 import { EmailingDomainTenantStatus } from 'src/engine/core-modules/emailing-domain/drivers/types/emailing-domain-tenant-status.type';
@@ -25,6 +26,7 @@ describe('Campaign SMTP routing and suppression', () => {
     sendEmailBatch: jest.fn(),
   };
   const driver = { sendEmail: jest.fn(), sendEmailBatch: jest.fn() };
+  const getCurrentDriver = jest.fn();
   let service: EmailingDomainSenderService;
   const content = {
     from: 'admin@example.com',
@@ -35,6 +37,7 @@ describe('Campaign SMTP routing and suppression', () => {
 
   beforeEach(async () => {
     jest.resetAllMocks();
+    getCurrentDriver.mockReturnValue(driver);
     findDomain.mockResolvedValue(domain);
     findApplicableSuppressions.mockResolvedValue([]);
     smtp.findAccount.mockResolvedValue({ id: 'account' });
@@ -56,7 +59,7 @@ describe('Campaign SMTP routing and suppression', () => {
         },
         {
           provide: EmailingDomainDriverFactory,
-          useValue: { getCurrentDriver: () => driver },
+          useValue: { getCurrentDriver },
         },
         {
           provide: MessageSuppressionService,
@@ -68,13 +71,31 @@ describe('Campaign SMTP routing and suppression', () => {
     service = module.get(EmailingDomainSenderService);
   });
 
-  it('keeps ordinary email on the existing domain driver', async () => {
+  it('routes People composer email through the matching SMTP account', async () => {
     await service.sendEmail('workspace', 'domain', {
       ...content,
       sendKind: 'TRANSACTIONAL',
     });
-    expect(driver.sendEmail).toHaveBeenCalledTimes(1);
-    expect(smtp.findAccount).not.toHaveBeenCalled();
+    expect(smtp.findAccount).toHaveBeenCalledWith(
+      'workspace',
+      'admin@example.com',
+    );
+    expect(smtp.sendEmail).toHaveBeenCalledTimes(1);
+    expect(driver.sendEmail).not.toHaveBeenCalled();
+  });
+
+  it('rejects simulated delivery when no matching SMTP sender exists', async () => {
+    smtp.findAccount.mockResolvedValue(null);
+    const logDriver = Object.create(LogEmailingDomainDriver.prototype);
+    logDriver.sendEmail = jest.fn();
+    getCurrentDriver.mockReturnValue(logDriver);
+    await expect(
+      service.sendEmail('workspace', 'domain', {
+        ...content,
+        sendKind: 'TRANSACTIONAL',
+      }),
+    ).rejects.toThrow('Email was not sent');
+    expect(logDriver.sendEmail).not.toHaveBeenCalled();
   });
 
   it('routes marketing tests through configured SMTP', async () => {

@@ -11,6 +11,7 @@ import {
   EmailingDomainDriverExceptionCode,
 } from 'src/engine/core-modules/emailing-domain/drivers/exceptions/emailing-domain-driver.exception';
 import { EmailingDomainDriverFactory } from 'src/engine/core-modules/emailing-domain/drivers/emailing-domain-driver.factory';
+import { LogEmailingDomainDriver } from 'src/engine/core-modules/emailing-domain/drivers/log/services/log-emailing-domain-driver.service';
 import { EmailingDomainStatus } from 'src/engine/core-modules/emailing-domain/drivers/types/emailing-domain-status.type';
 import { EmailingDomainTenantStatus } from 'src/engine/core-modules/emailing-domain/drivers/types/emailing-domain-tenant-status.type';
 import { type EmailingDomainEmailContent } from 'src/engine/core-modules/emailing-domain/drivers/types/emailing-domain-email-content.type';
@@ -83,21 +84,29 @@ export class EmailingDomainSenderService {
       bcc: recipients.bcc,
     };
 
-    const smtpAccount =
-      emailContent.sendKind === 'MARKETING'
-        ? await this.campaignSmtpService.findAccount(
-            workspaceId,
-            emailContent.from,
-          )
-        : null;
+    const smtpAccount = await this.campaignSmtpService.findAccount(
+      workspaceId,
+      emailContent.from,
+    );
 
     if (smtpAccount) {
       return this.campaignSmtpService.sendEmail(smtpAccount, emailToSend);
     }
 
-    return this.emailingDomainDriverFactory
-      .getCurrentDriver()
-      .sendEmail(emailToSend);
+    return this.getDeliveryDriver().sendEmail(emailToSend);
+  }
+
+  private getDeliveryDriver() {
+    const driver = this.emailingDomainDriverFactory.getCurrentDriver();
+
+    if (driver instanceof LogEmailingDomainDriver) {
+      throw new EmailingDomainDriverException(
+        'Email was not sent: configure a real email provider or a matching SMTP sender. The current email provider only simulates delivery.',
+        EmailingDomainDriverExceptionCode.CONFIGURATION_ERROR,
+      );
+    }
+
+    return driver;
   }
 
   async sendEmailBatch({
@@ -181,9 +190,7 @@ export class EmailingDomainSenderService {
         : null;
     const { entries } = smtpAccount
       ? await this.campaignSmtpService.sendEmailBatch(smtpAccount, batchRequest)
-      : await this.emailingDomainDriverFactory
-          .getCurrentDriver()
-          .sendEmailBatch(batchRequest);
+      : await this.getDeliveryDriver().sendEmailBatch(batchRequest);
 
     return {
       entries: entries.map((entry) => ({
