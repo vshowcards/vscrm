@@ -67,6 +67,17 @@ describe('customer group list audience controls', () => {
       </I18nProvider>,
     );
     await screen.findByText('Follow-up', { exact: false });
+    expect(screen.getByLabelText('Customer Group')).toHaveValue('');
+    expect(screen.getByRole('checkbox')).not.toBeChecked();
+    expect(screen.getByRole('checkbox')).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'Preview audience' }),
+    ).toBeDisabled();
+    expect(global.fetch).toHaveBeenCalledTimes(1);
+    await user.selectOptions(
+      screen.getByLabelText('Customer Group'),
+      'TRIED_REGISTER',
+    );
     expect(
       screen.getByRole('button', { name: 'Apply audience' }),
     ).toBeDisabled();
@@ -75,6 +86,15 @@ describe('customer group list audience controls', () => {
     expect(
       screen.getByRole('button', { name: 'Apply audience' }),
     ).toBeEnabled();
+    await user.selectOptions(screen.getByLabelText('Customer Group'), '');
+    expect(screen.queryByText(/Example Contact/)).not.toBeInTheDocument();
+    expect(
+      screen.getByRole('button', { name: 'Apply audience' }),
+    ).toBeDisabled();
+    expect(
+      screen.getByRole('button', { name: 'Preview audience' }),
+    ).toBeDisabled();
+    expect(global.fetch).toHaveBeenCalledTimes(2);
     await user.selectOptions(screen.getByLabelText('Customer Group'), 'PAID');
     expect(
       screen.getByRole('button', { name: 'Apply audience' }),
@@ -96,7 +116,7 @@ describe('customer group list audience controls', () => {
     expect(global.fetch).toHaveBeenCalledWith(
       expect.stringContaining('/apply'),
       expect.objectContaining({
-        body: JSON.stringify({ group: 'PAID', automatic: true }),
+        body: JSON.stringify({ group: 'PAID', automatic: false }),
       }),
     );
   });

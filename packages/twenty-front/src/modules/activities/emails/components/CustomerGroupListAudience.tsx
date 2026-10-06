@@ -65,7 +65,7 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
   const { t } = useLingui();
   const [status, setStatus] = useState<AudienceStatus | null>(null);
   const [group, setGroup] = useState('');
-  const [automatic, setAutomatic] = useState(true);
+  const [automatic, setAutomatic] = useState(false);
   const [preview, setPreview] = useState<Preview | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState('');
@@ -80,8 +80,8 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
     request<AudienceStatus>(listId, '', undefined, controller.signal)
       .then((result) => {
         setStatus(result);
-        setGroup(result.rule?.group ?? 'TRIED_REGISTER');
-        setAutomatic(result.rule?.automatic ?? true);
+        setGroup(result.rule?.automatic ? result.rule.group : '');
+        setAutomatic(result.rule?.automatic ?? false);
       })
       .catch(() => {
         if (!controller.signal.aborted)
@@ -123,6 +123,7 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
   }, [listId, status?.rule?.automatic]);
 
   const run = async (action: 'preview' | 'apply' | 'disable') => {
+    if (action !== 'disable' && !group) return;
     setBusy(true);
     setError('');
     setNotice('');
@@ -136,6 +137,10 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
           action === 'disable' ? {} : { group, automatic },
         );
         setStatus(await request<AudienceStatus>(listId));
+        if (action === 'disable') {
+          setGroup('');
+          setAutomatic(false);
+        }
         setPreview(null);
         setNotice(
           action === 'disable'
@@ -183,10 +188,12 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
                 disabled={busy}
                 onChange={(event) => {
                   setGroup(event.target.value);
+                  if (!event.target.value) setAutomatic(false);
                   setPreview(null);
                   setNotice('');
                 }}
               >
+                <option value="">{t`None — use existing list members`}</option>
                 {status.groups.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
@@ -198,7 +205,7 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
               <input
                 type="checkbox"
                 checked={automatic}
-                disabled={busy}
+                disabled={busy || !group}
                 onChange={(event) => {
                   setAutomatic(event.target.checked);
                   setPreview(null);
@@ -207,8 +214,18 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
               {t`Keep members updated automatically`}
             </label>
           </StyledActions>
-          <p>{t`Applying replaces this list’s members with contacts in the selected group. Manually added contacts outside the group will be removed from the list, not deleted from CRM.`}</p>
-          <p>{t`Uses current CRM data. Source sync stays paused if paused in Sync Management. No emails are sent.`}</p>
+          {group ? (
+            <>
+              <p>{t`Applying replaces this list’s members with contacts in the selected group. Manually added contacts outside the group will be removed from the list, not deleted from CRM.`}</p>
+              <p>{t`Uses current CRM data. Source sync stays paused if paused in Sync Management. No emails are sent.`}</p>
+            </>
+          ) : (
+            <p>
+              {status.rule?.automatic
+                ? t`Click Stop automatic updates to keep the current list members without group updates.`
+                : t`The campaign uses the contacts already in this list. No customer group is required.`}
+            </p>
+          )}
           {preview && (
             <div role="status">
               <p>
@@ -229,12 +246,12 @@ export const CustomerGroupListAudience = ({ listId }: { listId: string }) => {
           <StyledActions>
             <Button
               title={busy ? t`Working…` : t`Preview audience`}
-              disabled={busy}
+              disabled={busy || !group}
               onClick={() => void run('preview')}
             />
             <Button
               title={t`Apply audience`}
-              disabled={busy || !preview}
+              disabled={busy || !group || !preview}
               onClick={() => void run('apply')}
             />
             {status.rule?.automatic && (
