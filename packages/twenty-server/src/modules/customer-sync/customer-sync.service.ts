@@ -322,8 +322,12 @@ export class CustomerSyncService implements OnModuleInit, OnModuleDestroy {
         await this.store.set(workspaceId, `run:${run.id}`, run);
         await this.target.validateFields();
         const snapshot = await this.source.read();
-        const { ordersByMember, issuesByMember, unmatchedOrders } =
-          matchSourceOrders(snapshot);
+        const {
+          ordersByMember,
+          issuesByMember,
+          unmatchedOrders,
+          verifiedSubscriptionHashesByMember,
+        } = matchSourceOrders(snapshot);
 
         run.sourceReadAt = snapshot.readAt;
         run.unmatchedOrders = unmatchedOrders;
@@ -351,7 +355,8 @@ export class CustomerSyncService implements OnModuleInit, OnModuleDestroy {
                 orders: ordersByMember.get(member.member_id) ?? [],
                 now,
                 verifiedSubscriptionHashes:
-                  configuration.verifiedSubscriptionHashes,
+                  verifiedSubscriptionHashesByMember.get(member.member_id) ??
+                  [],
                 sourceDateOffset: configuration.sourceDateOffset,
                 sourceTimezone: snapshot.sourceTimezone,
               });

@@ -100,7 +100,8 @@ describe('MCP customer snapshot adapter', () => {
       now: new Date('2026-09-15'),
       sourceDateOffset: '+05:30',
       sourceTimezone: snapshot.sourceTimezone,
-      verifiedSubscriptionHashes: [key],
+      verifiedSubscriptionHashes:
+        matched.verifiedSubscriptionHashesByMember.get(144),
     });
     expect(state.groups).toEqual(['PAID', 'PAYMENT_ACTIVE', 'WEB']);
     expect(state.issues).toEqual([]);

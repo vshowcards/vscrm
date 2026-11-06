@@ -1,4 +1,4 @@
-export const CUSTOMER_SYNC_RULE_VERSION = '2026-09-16.2';
+export const CUSTOMER_SYNC_RULE_VERSION = '2026-11-06.1';
 
 export const CUSTOMER_GROUPS = {
   TRIED_REGISTER: 'Tried Register',
